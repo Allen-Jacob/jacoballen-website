@@ -8,7 +8,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color:#1a1a1a;
-    color:rgba(255, 255, 255, 0.18);
+    color:rgba(255, 255, 255, 0.54);
     min-height:100vh;
     line-height:1.7;
 }
@@ -20,7 +20,7 @@ header {
     z-index:1000;
     background: rgba(26, 26, 26, 0);
     backdrop-filter: blur(20px);
-    border-bottom:1px solid rgb(255, 255, 255);
+    border-bottom:1px solid rgba(255, 255, 255, 0.121);
 }
 
 nav {
