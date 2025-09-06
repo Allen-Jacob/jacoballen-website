@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Jacob Allen</title>
     <link rel="stylesheet" href="css/blog-page.css">
+    <style>
+        /* Style pour cacher les articles */
+        .blog-card.hidden {
+            display: none !important;
+        }
+        
+        /* Optionnel: style pour les articles en mode "brouillon" (visibles pour toi mais pas pour les visiteurs) */
+        .blog-card.draft {
+            opacity: 0.5;
+            border: 2px dashed #666;
+            position: relative;
+        }
+        
+        .blog-card.draft::before {
+            content: "BROUILLON";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -33,40 +59,50 @@
             <h1 class="page-title">Jacob Allen Blog</h1>
             
             <div class="blog-list">
-                <!-- ARTICLE 1 -->
+                <!-- ARTICLE 1 - PUBLIÉ (visible) -->
                 <a href="articles/mon-article.html" class="blog-card">
                     <h2>Les bases du développement web</h2>
                     <div class="meta">06 septembre 2025 • Jacob Allen</div>
                     <div class="excerpt">Cet article explique les concepts essentiels pour débuter en développement web, incluant HTML, CSS et JavaScript, pour construire des sites modernes et réactifs.</div>
                 </a>
 
-                <!-- ARTICLE 2 -->
-                <a href="blog-page2.html" class="blog-card">
+                <!-- ARTICLE 2 - CACHÉ (ajoute class="hidden" pour cacher) -->
+                <a href="blog-page2.html" class="blog-card hidden">
                     <h2>Configuration d'un serveur Nginx sécurisé</h2>
                     <div class="meta">05 septembre 2025 • Jacob Allen</div>
                     <div class="excerpt">Apprenez à configurer Nginx avec SSL, PHP-FPM et des règles de sécurité, pour héberger vos sites web de manière professionnelle et sécurisée.</div>
                 </a>
 
-                <!-- ARTICLE 3 -->
-                <a href="blog-page2.html" class="blog-card">
+                <!-- ARTICLE 3 - CACHÉ -->
+                <a href="blog-page2.html" class="blog-card hidden">
                     <h2>Créer un blog dynamique facilement</h2>
                     <div class="meta">04 septembre 2025 • Jacob Allen</div>
                     <div class="excerpt">Découvrez comment mettre en place un blog avec un CMS simple, en stylisant les articles avec du CSS moderne et en ajoutant des animations pour le rendre vivant.</div>
                 </a>
 
-                <!-- ARTICLE 4 -->
-                <a href="blog-page2.html" class="blog-card">
+                <!-- ARTICLE 4 - CACHÉ -->
+                <a href="blog-page2.html" class="blog-card hidden">
                     <h2>Optimisation des performances web</h2>
                     <div class="meta">03 septembre 2025 • Jacob Allen</div>
                     <div class="excerpt">Techniques avancées pour améliorer la vitesse de chargement de vos sites web, incluant la compression d'images et l'optimisation du code.</div>
                 </a>
 
-                <!-- ARTICLE 5 -->
-                <a href="blog-page2.html" class="blog-card">
+                <!-- ARTICLE 5 - CACHÉ -->
+                <a href="blog-page2.html" class="blog-card hidden">
                     <h2>Introduction aux API REST</h2>
                     <div class="meta">02 septembre 2025 • Jacob Allen</div>
                     <div class="excerpt">Comprendre les bases des API REST, comment les utiliser et les implémenter dans vos projets web modernes.</div>
                 </a>
+
+                <!-- EXEMPLE D'ARTICLE EN MODE "BROUILLON" (optionnel) -->
+                <!-- Tu peux utiliser class="draft" pour voir l'article mais avec un indicateur visuel -->
+                <!--
+                <a href="blog-page2.html" class="blog-card draft">
+                    <h2>Article en cours de rédaction</h2>
+                    <div class="meta">01 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Cet article est en cours de rédaction et ne sera visible que pour moi.</div>
+                </a>
+                -->
             </div>
 
             <!-- PAGINATION FONCTIONNELLE -->
@@ -89,101 +125,26 @@
         const totalPages = 3;
         const articlesPerPage = 5;
 
-        // Articles de démonstration (tu peux les remplacer par tes vrais articles)
+        // Articles de démonstration - seulement les articles VISIBLES seront affichés
         const allArticles = [
-            // Page 1
+            // Page 1 - Articles visibles seulement
             [
                 {
                     title: "Les bases du développement web",
                     date: "06 septembre 2025",
                     excerpt: "Cet article explique les concepts essentiels pour débuter en développement web, incluant HTML, CSS et JavaScript, pour construire des sites modernes et réactifs.",
                     link: "articles/mon-article.html"
-                },
-            //     {
-            //         title: "Configuration d'un serveur Nginx sécurisé",
-            //         date: "05 septembre 2025",
-            //         excerpt: "Apprenez à configurer Nginx avec SSL, PHP-FPM et des règles de sécurité, pour héberger vos sites web de manière professionnelle et sécurisée.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Créer un blog dynamique facilement",
-            //         date: "04 septembre 2025",
-            //         excerpt: "Découvrez comment mettre en place un blog avec un CMS simple, en stylisant les articles avec du CSS moderne et en ajoutant des animations pour le rendre vivant.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Optimisation des performances web",
-            //         date: "03 septembre 2025",
-            //         excerpt: "Techniques avancées pour améliorer la vitesse de chargement de vos sites web, incluant la compression d'images et l'optimisation du code.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Introduction aux API REST",
-            //         date: "02 septembre 2025",
-            //         excerpt: "Comprendre les bases des API REST, comment les utiliser et les implémenter dans vos projets web modernes.",
-            //         link: "blog-page2.html"
-            //     }
-            // ],
-            // // Page 2
-            // [
-            //     {
-            //         title: "Sécurité web : les bonnes pratiques",
-            //         date: "01 septembre 2025",
-            //         excerpt: "Guide complet sur les mesures de sécurité essentielles à implémenter dans vos applications web pour protéger vos utilisateurs.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "CSS Grid vs Flexbox : quand les utiliser",
-            //         date: "31 août 2025",
-            //         excerpt: "Comparaison détaillée entre CSS Grid et Flexbox, avec des exemples pratiques pour savoir quel outil utiliser selon le contexte.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "JavaScript moderne : ES6 et au-delà",
-            //         date: "30 août 2025",
-            //         excerpt: "Découvrez les nouvelles fonctionnalités de JavaScript ES6+ qui révolutionnent la façon de coder en JavaScript moderne.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Responsive Design : techniques avancées",
-            //         date: "29 août 2025",
-            //         excerpt: "Maîtrisez les techniques avancées du responsive design pour créer des sites qui s'adaptent parfaitement à tous les écrans.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Git et GitHub : workflow professionnel",
-            //         date: "28 août 2025",
-            //         excerpt: "Apprenez à utiliser Git et GitHub comme un pro avec les meilleures pratiques utilisées dans l'industrie du développement.",
-            //         link: "blog-page2.html"
-            //     }
-            // ],
-            // // Page 3
-            // [
-            //     {
-            //         title: "Node.js : créer votre première API",
-            //         date: "27 août 2025",
-            //         excerpt: "Tutorial step-by-step pour créer votre première API REST avec Node.js et Express, incluant la base de données et l'authentification.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Docker pour les développeurs web",
-            //         date: "26 août 2025",
-            //         excerpt: "Introduction pratique à Docker dans le contexte du développement web, de la conteneurisation au déploiement.",
-            //         link: "blog-page2.html"
-            //     },
-            //     {
-            //         title: "Tests unitaires en JavaScript",
-            //         date: "25 août 2025",
-            //         excerpt: "Apprenez à écrire des tests unitaires efficaces pour vos applications JavaScript avec Jest et les meilleures pratiques.",
-            //         link: "blog-page2.html"
-            //     }
-            // ]
+                }
+                // Les autres articles sont cachés via CSS, donc pas besoin de les inclure ici
+                // Tu peux les rajouter dans ce tableau quand tu enlèves la classe "hidden"
+            ]
         ];
 
         function displayArticles(page) {
             const blogList = document.querySelector('.blog-list');
             const articles = allArticles[page - 1] || [];
             
+            // Si tu utilises la pagination avec JavaScript, assure-toi de ne pas afficher les articles cachés
             blogList.innerHTML = articles.map(article => `
                 <a href="${article.link}" class="blog-card">
                     <h2>${article.title}</h2>
@@ -236,9 +197,9 @@
             document.querySelector('.nav-links').classList.toggle('active');
         });
 
-        // Initialisation
-        displayArticles(1);
-        updatePagination();
+        // Initialisation - pour l'instant on garde la pagination simple
+        // displayArticles(1);
+        // updatePagination();
     </script>
 </body>
 </html>
