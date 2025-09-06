@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Jacob Allen</title>
+    <link rel="stylesheet" href="css/blog-page.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">🚀 Jacob Allen</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/blog/" class="active">Blog</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <div class="background"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Jacob Allen Blog</h1>
+            
+            <div class="blog-list">
+                <!-- ARTICLE 1 -->
+                <a href="articles/mon-article.html" class="blog-card">
+                    <h2>Les bases du développement web</h2>
+                    <div class="meta">06 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Cet article explique les concepts essentiels pour débuter en développement web, incluant HTML, CSS et JavaScript, pour construire des sites modernes et réactifs.</div>
+                </a>
+
+                <!-- ARTICLE 2 -->
+                <a href="blog-page2.html" class="blog-card">
+                    <h2>Configuration d'un serveur Nginx sécurisé</h2>
+                    <div class="meta">05 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Apprenez à configurer Nginx avec SSL, PHP-FPM et des règles de sécurité, pour héberger vos sites web de manière professionnelle et sécurisée.</div>
+                </a>
+
+                <!-- ARTICLE 3 -->
+                <a href="blog-page2.html" class="blog-card">
+                    <h2>Créer un blog dynamique facilement</h2>
+                    <div class="meta">04 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Découvrez comment mettre en place un blog avec un CMS simple, en stylisant les articles avec du CSS moderne et en ajoutant des animations pour le rendre vivant.</div>
+                </a>
+
+                <!-- ARTICLE 4 -->
+                <a href="blog-page2.html" class="blog-card">
+                    <h2>Optimisation des performances web</h2>
+                    <div class="meta">03 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Techniques avancées pour améliorer la vitesse de chargement de vos sites web, incluant la compression d'images et l'optimisation du code.</div>
+                </a>
+
+                <!-- ARTICLE 5 -->
+                <a href="blog-page2.html" class="blog-card">
+                    <h2>Introduction aux API REST</h2>
+                    <div class="meta">02 septembre 2025 • Jacob Allen</div>
+                    <div class="excerpt">Comprendre les bases des API REST, comment les utiliser et les implémenter dans vos projets web modernes.</div>
+                </a>
+            </div>
+
+            <!-- PAGINATION FONCTIONNELLE -->
+            <div class="pagination" id="pagination">
+                <a href="#" class="prev disabled" onclick="changePage('prev')">← Précédent</a>
+                <a href="#" class="active" onclick="goToPage(1)">1</a>
+                <a href="#" onclick="goToPage(2)">2</a>
+                <a href="#" onclick="goToPage(3)">3</a>
+                <a href="#" class="next" onclick="changePage('next')">Suivant →</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; © 2025 Jacob Allen. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 3;
+        const articlesPerPage = 5;
+
+        // Articles de démonstration (tu peux les remplacer par tes vrais articles)
+        const allArticles = [
+            // Page 1
+            [
+                {
+                    title: "Les bases du développement web",
+                    date: "06 septembre 2025",
+                    excerpt: "Cet article explique les concepts essentiels pour débuter en développement web, incluant HTML, CSS et JavaScript, pour construire des sites modernes et réactifs.",
+                    link: "articles/mon-article.html"
+                },
+            //     {
+            //         title: "Configuration d'un serveur Nginx sécurisé",
+            //         date: "05 septembre 2025",
+            //         excerpt: "Apprenez à configurer Nginx avec SSL, PHP-FPM et des règles de sécurité, pour héberger vos sites web de manière professionnelle et sécurisée.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Créer un blog dynamique facilement",
+            //         date: "04 septembre 2025",
+            //         excerpt: "Découvrez comment mettre en place un blog avec un CMS simple, en stylisant les articles avec du CSS moderne et en ajoutant des animations pour le rendre vivant.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Optimisation des performances web",
+            //         date: "03 septembre 2025",
+            //         excerpt: "Techniques avancées pour améliorer la vitesse de chargement de vos sites web, incluant la compression d'images et l'optimisation du code.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Introduction aux API REST",
+            //         date: "02 septembre 2025",
+            //         excerpt: "Comprendre les bases des API REST, comment les utiliser et les implémenter dans vos projets web modernes.",
+            //         link: "blog-page2.html"
+            //     }
+            // ],
+            // // Page 2
+            // [
+            //     {
+            //         title: "Sécurité web : les bonnes pratiques",
+            //         date: "01 septembre 2025",
+            //         excerpt: "Guide complet sur les mesures de sécurité essentielles à implémenter dans vos applications web pour protéger vos utilisateurs.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "CSS Grid vs Flexbox : quand les utiliser",
+            //         date: "31 août 2025",
+            //         excerpt: "Comparaison détaillée entre CSS Grid et Flexbox, avec des exemples pratiques pour savoir quel outil utiliser selon le contexte.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "JavaScript moderne : ES6 et au-delà",
+            //         date: "30 août 2025",
+            //         excerpt: "Découvrez les nouvelles fonctionnalités de JavaScript ES6+ qui révolutionnent la façon de coder en JavaScript moderne.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Responsive Design : techniques avancées",
+            //         date: "29 août 2025",
+            //         excerpt: "Maîtrisez les techniques avancées du responsive design pour créer des sites qui s'adaptent parfaitement à tous les écrans.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Git et GitHub : workflow professionnel",
+            //         date: "28 août 2025",
+            //         excerpt: "Apprenez à utiliser Git et GitHub comme un pro avec les meilleures pratiques utilisées dans l'industrie du développement.",
+            //         link: "blog-page2.html"
+            //     }
+            // ],
+            // // Page 3
+            // [
+            //     {
+            //         title: "Node.js : créer votre première API",
+            //         date: "27 août 2025",
+            //         excerpt: "Tutorial step-by-step pour créer votre première API REST avec Node.js et Express, incluant la base de données et l'authentification.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Docker pour les développeurs web",
+            //         date: "26 août 2025",
+            //         excerpt: "Introduction pratique à Docker dans le contexte du développement web, de la conteneurisation au déploiement.",
+            //         link: "blog-page2.html"
+            //     },
+            //     {
+            //         title: "Tests unitaires en JavaScript",
+            //         date: "25 août 2025",
+            //         excerpt: "Apprenez à écrire des tests unitaires efficaces pour vos applications JavaScript avec Jest et les meilleures pratiques.",
+            //         link: "blog-page2.html"
+            //     }
+            // ]
+        ];
+
+        function displayArticles(page) {
+            const blogList = document.querySelector('.blog-list');
+            const articles = allArticles[page - 1] || [];
+            
+            blogList.innerHTML = articles.map(article => `
+                <a href="${article.link}" class="blog-card">
+                    <h2>${article.title}</h2>
+                    <div class="meta">${article.date} • Jacob Allen</div>
+                    <div class="excerpt">${article.excerpt}</div>
+                </a>
+            `).join('');
+        }
+
+        function updatePagination() {
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            
+            // Reset all active states
+            paginationLinks.forEach(link => link.classList.remove('active'));
+            
+            // Set current page as active
+            const currentPageLink = document.querySelector(`.pagination a[onclick="goToPage(${currentPage})"]`);
+            if (currentPageLink) currentPageLink.classList.add('active');
+            
+            // Handle prev/next buttons
+            prevBtn.classList.toggle('disabled', currentPage === 1);
+            nextBtn.classList.toggle('disabled', currentPage === totalPages);
+        }
+
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayArticles(currentPage);
+                updatePagination();
+                
+                // Scroll to top smoothly
+                document.querySelector('.page-content').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        }
+
+        function changePage(direction) {
+            if (direction === 'prev' && currentPage > 1) {
+                goToPage(currentPage - 1);
+            } else if (direction === 'next' && currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        }
+
+        // Menu mobile
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Initialisation
+        displayArticles(1);
+        updatePagination();
+    </script>
+</body>
+</html>

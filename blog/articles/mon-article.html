@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maîtriser les animations CSS modernes - Jacob Allen</title>
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="/" class="logo">Jacob Allen</a>
+            <div class="nav-center">Maîtriser les animations CSS modernes</div>
+            <a href="/blog/" class="back-btn">← Retour au blog</a>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- BACKGROUND -->
+    <div class="background"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <!-- META BOX -->
+            <div class="meta-box">
+                <h3>📝 Informations</h3>
+                <div class="meta-item">📅 8 septembre 2025</div>
+                <div class="meta-item">👤 Jacob Allen</div>
+                <div class="meta-item">⏱️ 12 min de lecture</div>
+            </div>
+
+            <!-- TABLE OF CONTENTS -->
+            <div class="toc">
+                <h3>📋 Table des matières</h3>
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li>
+                        <a href="#bases">Les bases des animations CSS</a>
+                        <ul>
+                            <li><a href="#transitions">Transitions</a></li>
+                            <li><a href="#keyframes">Keyframes</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#techniques">Techniques avancées</a>
+                        <ul>
+                            <li><a href="#performance">Performance</a></li>
+                            <li><a href="#transforms">Transforms 3D</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#exemples">Exemples pratiques</a></li>
+                    <li><a href="#bonnes-pratiques">Bonnes pratiques</a></li>
+                    <li><a href="#conclusion">Conclusion</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- ARTICLE -->
+        <article class="article">
+            <h1 class="article-title">Maîtriser les animations CSS modernes</h1>
+
+            <!-- INTRODUCTION -->
+            <section id="introduction">
+                <p>Les animations CSS sont devenues un élément incontournable du web moderne. Elles permettent de créer des interfaces utilisateur fluides, engageantes et professionnelles qui captent l'attention tout en améliorant l'expérience utilisateur.</p>
+                
+                <p>Dans cet article, nous allons explorer les techniques les plus récentes pour créer des animations CSS performantes et élégantes, depuis les bases jusqu'aux concepts avancés utilisés par les développeurs front-end les plus expérimentés.</p>
+
+                <div class="highlight-box">
+                    <h4>🎯 Ce que vous apprendrez</h4>
+                    <p>Comment créer des animations fluides, optimiser leurs performances, et les intégrer harmonieusement dans vos projets web modernes.</p>
+                </div>
+            </section>
+
+            <!-- BASES -->
+            <section id="bases">
+                <h2>Les bases des animations CSS</h2>
+                <p>Avant de plonger dans les techniques avancées, il est essentiel de maîtriser les deux piliers des animations CSS : les transitions et les keyframes.</p>
+
+                <h3 id="transitions">Transitions : la simplicité efficace</h3>
+                <p>Les transitions CSS permettent d'animer automatiquement le passage d'une valeur CSS à une autre. Elles sont parfaites pour les interactions simples comme les hovers.</p>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Exemple de transition</div>
+                    <code>.button {
+    background: #ff6b9d;
+    transform: scale(1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button:hover {
+    background: #ff4081;
+    transform: scale(1.05);
+}</code>
+                </div>
+
+                <div class="demo-box">
+                    <div class="demo-element" onclick="this.style.background = this.style.background === 'rgb(255, 64, 129)' ? 'linear-gradient(45deg, #ff6b9d, #7877c6)' : '#ff4081'"></div>
+                    <p>Cliquez sur l'élément pour voir la transition</p>
+                </div>
+
+                <h3 id="keyframes">Keyframes : le contrôle total</h3>
+                <p>Les keyframes offrent un contrôle précis sur chaque étape de l'animation, permettant de créer des mouvements complexes et personnalisés.</p>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Animation avec keyframes</div>
+                    <code>@keyframes slideInUp {
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animated-element {
+    animation: slideInUp 0.8s ease-out forwards;
+}</code>
+                </div>
+            </section>
+
+            <!-- TECHNIQUES -->
+            <section id="techniques">
+                <h2>Techniques avancées</h2>
+                <p>Une fois les bases maîtrisées, nous pouvons explorer des techniques plus sophistiquées pour créer des animations vraiment impressionnantes.</p>
+
+                <h3 id="performance">Optimisation des performances</h3>
+                <p>Les performances sont cruciales pour une expérience utilisateur fluide. Voici les propriétés CSS qui garantissent des animations à 60fps :</p>
+
+                <div class="highlight-box tip">
+                    <h4>💡 Propriétés optimisées</h4>
+                    <p>Privilégiez toujours <strong>transform</strong> et <strong>opacity</strong> qui sont accélérées par le GPU, plutôt que width, height, ou left/top.</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Animation GPU-accélérée</div>
+                    <code>/* ❌ Lent - provoque des repaints */
+.slow-animation {
+    animation: move-slow 2s infinite;
+}
+
+@keyframes move-slow {
+    0% { left: 0; }
+    100% { left: 200px; }
+}
+
+/* ✅ Rapide - utilise le GPU */
+.fast-animation {
+    animation: move-fast 2s infinite;
+    will-change: transform;
+}
+
+@keyframes move-fast {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(200px); }
+}</code>
+                </div>
+
+                <h3 id="transforms">Transformations 3D</h3>
+                <p>Les transforms 3D ajoutent une dimension supplémentaire à vos animations, créant des effets visuels saisissants.</p>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Animation 3D</div>
+                    <code>.card-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card-3d:hover {
+    transform: rotateY(180deg);
+}</code>
+                </div>
+            </section>
+
+            <!-- EXEMPLES -->
+            <section id="exemples">
+                <h2>Exemples pratiques</h2>
+                <p>Mettons en pratique ces concepts avec quelques exemples concrets que vous pouvez utiliser dans vos projets.</p>
+
+                <div class="demo-box">
+                    <div class="demo-element bounce" onclick="this.classList.toggle('bounce')"></div>
+                    <p>Animation bounce - Cliquez pour activer/désactiver</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Animation bounce</div>
+                    <code>@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    50% { 
+        transform: translateY(-20px); 
+    }
+}
+
+.bounce {
+    animation: bounce 1s infinite ease-in-out;
+}</code>
+                </div>
+            </section>
+
+            <!-- BONNES PRATIQUES -->
+            <section id="bonnes-pratiques">
+                <h2>Bonnes pratiques</h2>
+                <p>Pour créer des animations professionnelles et accessibles, voici les règles d'or à suivre :</p>
+
+                <div class="highlight-box">
+                    <h4>🎨 Principes de design</h4>
+                    <ul>
+                        <li>Respectez les préférences d'accessibilité avec <code>prefers-reduced-motion</code></li>
+                        <li>Gardez les animations subtiles et purposeful</li>
+                        <li>Utilisez des courbes d'accélération naturelles (cubic-bezier)</li>
+                        <li>Testez sur différents appareils et connexions</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">CSS - Respect de l'accessibilité</div>
+                    <code>@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}</code>
+                </div>
+            </section>
+
+            <!-- CONCLUSION -->
+            <section id="conclusion">
+                <h2>Conclusion</h2>
+                <p>Les animations CSS modernes sont un outil puissant pour créer des expériences web mémorables. En maîtrisant les transitions, keyframes, et optimisations GPU, vous pouvez transformer des interfaces statiques en expériences dynamiques et engageantes.</p>
+
+                <p>N'oubliez jamais que la meilleure animation est celle qui améliore l'expérience utilisateur sans la distraire. Commencez simple, testez régulièrement, et n'hésitez pas à expérimenter avec les techniques avancées présentées dans cet article.</p>
+
+                <div class="highlight-box tip">
+                    <h4>🚀 Pour aller plus loin</h4>
+                    <p>Explorez les librairies comme Framer Motion pour React ou GreenSock (GSAP) pour des animations JavaScript encore plus sophistiquées.</p>
+                </div>
+            </section>
+        </article>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 Jacob Allen. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Table of contents active link
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
