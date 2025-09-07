@@ -1,21 +1,21 @@
-# Robots.txt poru le site JacobAllen.ca
+# Robots.txt pour le site JacobAllen.ca
 # https://jacoballen.ca/robots.txt
 
-# Règles pour tous les robots
+# Regles pour tous les robots
 User-agent: *
 
-# Pages/dossiers à exclure de l'indexation (personnalisez selon vos besoins)
+# Pages/dossiers a exclure de l'indexation (personnalisez selon vos besoins)
 Disallow: /admin/
 
-# Fichiers spécifiques à exclure
+# Fichiers specifiques à exclure
 Disallow: /404.html
 Disallow: /maintenance.html
 
-# Autoriser l'accès aux fichiers CSS et JS (important pour le SEO)
+# Autoriser l'acces aux fichiers CSS et JS (important pour le SEO)
 Allow: /css/
 Allow: /js/
 Allow: /img/
 
-# Référence vers le sitemap (remplacez par votre URL)
+# Reference vers le sitemap (remplacez par votre URL)
 Sitemap: https://votresite.com/sitemap.xml
 
