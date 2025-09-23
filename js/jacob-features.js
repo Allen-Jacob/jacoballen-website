@@ -150,7 +150,7 @@ class JacobSiteFeatures {
         console.log(`
         🚀 GEEK MODE ACTIVATED!
         
-        Welcome to the matrix, Jacob!
+        Welcome to the matrix!
         Type 'geek' again to exit.
         `);
         
