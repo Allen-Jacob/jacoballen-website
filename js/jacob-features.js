@@ -7,6 +7,7 @@ class JacobSiteFeatures {
         this.geekSequence = [];
         this.targetSequence = ['g', 'e', 'e', 'k'];
         this.devMode = false;
+        this.githubData = null;
         this.init();
     }
 
@@ -22,35 +23,28 @@ class JacobSiteFeatures {
     // THÈME AUTOMATIQUE BASÉ SUR L'OS
     // ========================================
     setupAutoTheme() {
-        // Détecter le thème préféré de l'OS
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        
-        // Vérifier s'il y a une préférence sauvegardée
         const savedTheme = localStorage.getItem('jacob-theme');
         
         if (savedTheme) {
             this.setTheme(savedTheme);
         } else {
-            // Utiliser la préférence du système
             this.setTheme(prefersDark.matches ? 'dark' : 'light');
         }
 
-        // Écouter les changements de thème du système
         prefersDark.addEventListener('change', (e) => {
             if (!localStorage.getItem('jacob-theme')) {
                 this.setTheme(e.matches ? 'dark' : 'light');
             }
         });
 
-        // Auto switch basé sur l'heure (optionnel)
         this.autoThemeByTime();
     }
 
     autoThemeByTime() {
         const hour = new Date().getHours();
-        const isNight = hour < 7 || hour > 19; // 7h-19h = jour
+        const isNight = hour < 7 || hour > 19;
         
-        // Seulement si pas de préférence manuelle
         if (!localStorage.getItem('jacob-theme')) {
             this.setTheme(isNight ? 'dark' : 'light');
         }
@@ -59,7 +53,6 @@ class JacobSiteFeatures {
     setTheme(theme) {
         document.body.setAttribute('data-theme', theme);
         
-        // Mettre à jour l'icône du toggle
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
@@ -74,7 +67,6 @@ class JacobSiteFeatures {
         themeToggle.id = 'theme-toggle';
         themeToggle.innerHTML = document.body.getAttribute('data-theme') === 'dark' ? '🌙' : '☀️';
         
-        // Style pour position milieu gauche
         themeToggle.style.cssText = `
             position: fixed;
             left: 20px;
@@ -121,7 +113,6 @@ class JacobSiteFeatures {
         this.setTheme(newTheme);
         localStorage.setItem('jacob-theme', newTheme);
         
-        // Petit effet visuel
         const toggle = document.getElementById('theme-toggle');
         toggle.style.animation = 'themeSwitch 0.5s ease-out';
         setTimeout(() => toggle.style.animation = '', 500);
@@ -134,18 +125,15 @@ class JacobSiteFeatures {
         document.addEventListener('keydown', (e) => {
             const key = e.key.toLowerCase();
             
-            // Ajouter la lettre à la séquence
             this.geekSequence.push(key);
             
-            // Garder seulement les 4 dernières lettres
             if (this.geekSequence.length > 4) {
                 this.geekSequence.shift();
             }
             
-            // Vérifier si ça matche "GEEK"
             if (this.geekSequence.join('') === 'geek') {
                 this.activateGeekMode();
-                this.geekSequence = []; // Reset
+                this.geekSequence = [];
             }
         });
     }
@@ -159,7 +147,6 @@ class JacobSiteFeatures {
         this.devMode = true;
         this.showGeekPanel();
         
-        // Easter egg dans la console
         console.log(`
         🚀 GEEK MODE ACTIVATED!
         
@@ -167,7 +154,6 @@ class JacobSiteFeatures {
         Type 'geek' again to exit.
         `);
         
-        // Petit effet visuel
         this.createGeekParticles();
     }
 
@@ -290,11 +276,10 @@ class JacobSiteFeatures {
     }
 
     // ========================================
-    // INTÉGRATION GITHUB SUBTILE
+    // INTÉGRATION GITHUB AVEC TRIGGER
     // ========================================
     async setupGitHubIntegration() {
         try {
-            // Remplace 'jacoballen' par ton vrai username GitHub
             const response = await fetch('https://api.github.com/users/Allen-Jacob/events/public');
             
             if (!response.ok) throw new Error('API unavailable');
@@ -305,13 +290,21 @@ class JacobSiteFeatures {
             if (lastPush) {
                 this.showGitHubWidget(lastPush);
             } else {
-                // Fallback avec données simulées
                 this.showGitHubWidget(this.getFakeCommitData());
             }
         } catch (error) {
             console.log('GitHub API unavailable, using fallback');
             this.showGitHubWidget(this.getFakeCommitData());
         }
+
+        // Pulse d'attention après 3 secondes
+        setTimeout(() => {
+            const trigger = document.getElementById('github-trigger');
+            if (trigger) {
+                trigger.classList.add('pulse');
+                setTimeout(() => trigger.classList.remove('pulse'), 4000);
+            }
+        }, 3000);
     }
 
     getFakeCommitData() {
@@ -326,11 +319,11 @@ class JacobSiteFeatures {
             'Updated dependencies 📦'
         ];
         
-        const randomMinutes = Math.floor(Math.random() * 180) + 5; // 5-185 minutes ago
+        const randomMinutes = Math.floor(Math.random() * 180) + 5;
         
         return {
             created_at: new Date(Date.now() - randomMinutes * 60000).toISOString(),
-            repo: { name: 'jacoballen/website' },
+            repo: { name: 'Allen-Jacob/jacoballen-website' },
             payload: {
                 commits: [{
                     message: commits[Math.floor(Math.random() * commits.length)]
@@ -340,11 +333,14 @@ class JacobSiteFeatures {
     }
 
     showGitHubWidget(commitData) {
+        this.githubData = commitData;
+        this.createGitHubTrigger();
+        
         const githubWidget = document.createElement('div');
         githubWidget.id = 'github-widget';
         githubWidget.style.cssText = `
             position: fixed;
-            top: 20px;
+            top: 90px;
             left: 20px;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
@@ -357,7 +353,10 @@ class JacobSiteFeatures {
             max-width: 260px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
         `;
         
         const commitMessage = commitData.payload?.commits?.[0]?.message || 'Recent activity';
@@ -369,19 +368,114 @@ class JacobSiteFeatures {
             </div>
             <div style="margin-bottom: 4px; line-height: 1.3;">${commitMessage}</div>
             <div style="opacity: 0.7; font-size: 11px;">⏰ ${timeAgo}</div>
+            <div style="margin-top: 8px; text-align: center;">
+                <button id="close-github-widget" style="
+                    background: none;
+                    border: 1px solid #4ecdc4;
+                    color: #4ecdc4;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                ">Close</button>
+            </div>
         `;
         
-        githubWidget.addEventListener('mouseenter', () => {
-            githubWidget.style.transform = 'scale(1.02)';
-            githubWidget.style.boxShadow = '0 6px 20px rgba(78, 205, 196, 0.3)';
-        });
-        
-        githubWidget.addEventListener('mouseleave', () => {
-            githubWidget.style.transform = 'scale(1)';
-            githubWidget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
-        });
-        
         document.body.appendChild(githubWidget);
+        
+        document.getElementById('close-github-widget').addEventListener('click', () => {
+            this.hideGitHubWidget();
+        });
+    }
+
+    createGitHubTrigger() {
+        const trigger = document.createElement('div');
+        trigger.id = 'github-trigger';
+        trigger.textContent = 'LAST COMMIT';
+        trigger.style.cssText = `
+            position: fixed;
+            left: 20px;
+            top: 90px;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #4ecdc4;
+            border-radius: 6px;
+            padding: 8px 6px;
+            color: #4ecdc4;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            user-select: none;
+        `;
+        
+        trigger.addEventListener('mouseenter', () => {
+            trigger.style.transform = 'scale(1.05)';
+            trigger.style.boxShadow = '0 4px 15px rgba(78, 205, 196, 0.3)';
+            trigger.style.background = 'rgba(78, 205, 196, 0.1)';
+        });
+        
+        trigger.addEventListener('mouseleave', () => {
+            trigger.style.transform = 'scale(1)';
+            trigger.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+            trigger.style.background = 'rgba(0, 0, 0, 0.7)';
+        });
+        
+        trigger.addEventListener('click', () => {
+            this.toggleGitHubWidget();
+        });
+        
+        document.body.appendChild(trigger);
+    }
+
+    showGitHubWidgetPanel() {
+        const widget = document.getElementById('github-widget');
+        const trigger = document.getElementById('github-trigger');
+        
+        if (widget) {
+            widget.style.transform = 'translateX(0)';
+            widget.style.opacity = '1';
+            widget.style.pointerEvents = 'auto';
+        }
+        
+        if (trigger) {
+            trigger.style.opacity = '0.5';
+            trigger.style.transform = 'scale(0.95)';
+        }
+    }
+
+    hideGitHubWidget() {
+        const widget = document.getElementById('github-widget');
+        const trigger = document.getElementById('github-trigger');
+        
+        if (widget) {
+            widget.style.transform = 'translateX(-100%)';
+            widget.style.opacity = '0';
+            widget.style.pointerEvents = 'none';
+        }
+        
+        if (trigger) {
+            trigger.style.opacity = '1';
+            trigger.style.transform = 'scale(1)';
+        }
+    }
+
+    toggleGitHubWidget() {
+        const widget = document.getElementById('github-widget');
+        const isVisible = widget && widget.style.opacity === '1';
+        
+        if (isVisible) {
+            this.hideGitHubWidget();
+        } else {
+            this.showGitHubWidgetPanel();
+        }
     }
 
     getTimeAgo(date) {
@@ -415,11 +509,11 @@ Made with ❤️ and lots of ☕
 }
 
 // ========================================
-// CSS ANIMATIONS À AJOUTER
+// CSS ANIMATIONS ET STYLES
 // ========================================
 const style = document.createElement('style');
 style.textContent = `
-    /* Thème clair - variables à ajouter à ton CSS existant */
+    /* Thème clair */
     [data-theme="light"] {
         --bg-primary: #f8f9fa !important;
         --text-primary: #2c3e50 !important;
@@ -440,7 +534,7 @@ style.textContent = `
     }
     
     [data-theme="light"] header {
-        background: rgba(248, 249, 250, 0.9);
+        background: rgba(248, 249, 250, 0);
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     
@@ -449,12 +543,12 @@ style.textContent = `
     }
     
     [data-theme="light"] .social-box {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.92);
         border: 1px solid rgba(0, 0, 0, 0.1);
     }
     
     [data-theme="light"] #theme-toggle {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0);
         border: 1px solid rgba(0, 0, 0, 0.1);
         color: #2c3e50;
     }
@@ -465,7 +559,26 @@ style.textContent = `
         border: 1px solid #4ecdc4;
     }
 
-    /* Animations pour les nouveaux éléments */
+    [data-theme="light"] #github-trigger {
+        background: rgba(255, 255, 255, 0.9) !important;
+        color: #2c3e50 !important;
+        border: 1px solid #4ecdc4 !important;
+    }
+
+    [data-theme="light"] #github-trigger:hover {
+        background: rgba(78, 205, 196, 0.1) !important;
+    }
+
+    [data-theme="light"] #close-github-widget {
+        color: #2c3e50 !important;
+        border-color: #4ecdc4 !important;
+    }
+
+    [data-theme="light"] #close-github-widget:hover {
+        background: rgba(78, 205, 196, 0.1) !important;
+    }
+
+    /* Animations */
     @keyframes themeSwitch {
         0%, 100% { transform: translateY(-50%) scale(1); }
         50% { transform: translateY(-50%) scale(1.2) rotate(180deg); }
@@ -504,7 +617,35 @@ style.textContent = `
         }
     }
 
-    /* Responsive adjustments */
+    @keyframes triggerPulse {
+        0%, 100% { 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); 
+        }
+        50% { 
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.4); 
+        }
+    }
+
+    #github-trigger.pulse {
+        animation: triggerPulse 2s infinite;
+    }
+
+    #github-trigger:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        background: rgba(78, 205, 196, 0.1);
+    }
+
+    #github-trigger:active {
+        transform: scale(0.98);
+    }
+
+    #close-github-widget:hover {
+        background: rgba(78, 205, 196, 0.1);
+        transform: scale(1.05);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
         #theme-toggle {
             left: 15px !important;
@@ -513,8 +654,16 @@ style.textContent = `
             font-size: 18px !important;
         }
         
+        #github-trigger {
+            top: 75px !important;
+            left: 15px !important;
+            font-size: 10px !important;
+            padding: 6px 4px !important;
+            letter-spacing: 0.5px !important;
+        }
+        
         #github-widget {
-            top: 15px !important;
+            top: 75px !important;
             left: 15px !important;
             max-width: 200px !important;
             font-size: 11px !important;
