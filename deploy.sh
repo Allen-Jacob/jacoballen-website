@@ -5,6 +5,7 @@
 cd /var/www/jacoballen.ca || exit 1
 
 # Récupérer les dernières infos depuis GitHub
+git push origin main
 git fetch origin
 
 # Réinitialiser le serveur pour matcher GitHub
