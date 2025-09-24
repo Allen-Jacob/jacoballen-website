@@ -7,115 +7,95 @@ class JacobSiteFeatures {
         this.geekSequence = [];
         this.targetSequence = ['g', 'e', 'e', 'k'];
         this.devMode = false;
-        this.githubData = null;
+        this.clockInterval = null;
         this.init();
     }
 
     init() {
-        this.setupAutoTheme();
         this.setupGeekModeActivation();
-        this.setupGitHubIntegration();
-        this.addThemeToggle();
+        this.initQuebecClock();
         this.initConsole();
     }
 
     // ========================================
-    // THÈME AUTOMATIQUE BASÉ SUR L'OS
+    // HORLOGE LOCALE QUÉBEC
     // ========================================
-    setupAutoTheme() {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        const savedTheme = localStorage.getItem('jacob-theme');
-        
-        if (savedTheme) {
-            this.setTheme(savedTheme);
-        } else {
-            this.setTheme(prefersDark.matches ? 'dark' : 'light');
-        }
-
-        prefersDark.addEventListener('change', (e) => {
-            if (!localStorage.getItem('jacob-theme')) {
-                this.setTheme(e.matches ? 'dark' : 'light');
-            }
-        });
-
-        this.autoThemeByTime();
+    initQuebecClock() {
+        this.createClockElement();
+        this.startClock();
     }
 
-    autoThemeByTime() {
-        const hour = new Date().getHours();
-        const isNight = hour < 7 || hour > 19;
-        
-        if (!localStorage.getItem('jacob-theme')) {
-            this.setTheme(isNight ? 'dark' : 'light');
-        }
-    }
-
-    setTheme(theme) {
-        document.body.setAttribute('data-theme', theme);
-        
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
-        }
-    }
-
-    // ========================================
-    // TOGGLE THÈME AU MILIEU GAUCHE
-    // ========================================
-    addThemeToggle() {
-        const themeToggle = document.createElement('button');
-        themeToggle.id = 'theme-toggle';
-        themeToggle.innerHTML = document.body.getAttribute('data-theme') === 'dark' ? '🌙' : '☀️';
-        
-        themeToggle.style.cssText = `
+    createClockElement() {
+        const clock = document.createElement('div');
+        clock.id = 'quebec-clock';
+        clock.style.cssText = `
             position: fixed;
+            bottom: 20px;
             left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 16px;
             color: white;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            user-select: none;
         `;
-
-        themeToggle.addEventListener('click', () => {
-            this.toggleTheme();
+        
+        clock.addEventListener('mouseenter', () => {
+            clock.style.transform = 'scale(1.05)';
+            clock.style.boxShadow = '0 6px 20px rgba(255, 107, 157, 0.3)';
+            clock.style.background = 'rgba(255, 107, 157, 0.1)';
+            clock.style.borderColor = 'rgba(255, 107, 157, 0.3)';
+        });
+        
+        clock.addEventListener('mouseleave', () => {
+            clock.style.transform = 'scale(1)';
+            clock.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            clock.style.background = 'rgba(0, 0, 0, 0.7)';
+            clock.style.borderColor = 'rgba(255, 255, 255, 0.2)';
         });
 
-        themeToggle.addEventListener('mouseenter', () => {
-            themeToggle.style.transform = 'translateY(-50%) scale(1.1)';
-            themeToggle.style.boxShadow = '0 6px 20px rgba(255, 107, 157, 0.3)';
+        clock.addEventListener('click', () => {
+            this.clockPulseAnimation(clock);
         });
-
-        themeToggle.addEventListener('mouseleave', () => {
-            themeToggle.style.transform = 'translateY(-50%) scale(1)';
-            themeToggle.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-        });
-
-        document.body.appendChild(themeToggle);
+        
+        document.body.appendChild(clock);
     }
 
-    toggleTheme() {
-        const currentTheme = document.body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    startClock() {
+        this.updateClock();
+        this.clockInterval = setInterval(() => {
+            this.updateClock();
+        }, 1000);
+    }
+
+    updateClock() {
+        const clock = document.getElementById('quebec-clock');
+        if (!clock) return;
         
-        this.setTheme(newTheme);
-        localStorage.setItem('jacob-theme', newTheme);
+        // Heure du Québec (EST/EDT)
+        const quebecTime = new Date().toLocaleTimeString('fr-CA', {
+            timeZone: 'America/Toronto',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
         
-        const toggle = document.getElementById('theme-toggle');
-        toggle.style.animation = 'themeSwitch 0.5s ease-out';
-        setTimeout(() => toggle.style.animation = '', 500);
+        clock.textContent = `${quebecTime} QC`;
+    }
+
+    clockPulseAnimation(clock) {
+        clock.style.animation = 'clockPulse 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        setTimeout(() => {
+            clock.style.animation = '';
+        }, 600);
     }
 
     // ========================================
@@ -188,7 +168,7 @@ class JacobSiteFeatures {
                 <div>⚡ Load Time: <span id="geek-load">--</span>ms</div>
                 <div>🌐 Browser: <span id="geek-browser">${this.getBrowserName()}</span></div>
                 <div>📱 Screen: <span id="geek-screen">${window.innerWidth}x${window.innerHeight}</span></div>
-                <div>🎯 Theme: <span id="geek-theme">${document.body.getAttribute('data-theme')}</span></div>
+                <div>🕐 QC Time: <span id="geek-time">--</span></div>
                 <div>⏰ Uptime: <span id="geek-uptime">0</span>s</div>
             </div>
             <div style="margin-top: 10px; font-size: 10px; opacity: 0.7; text-align: center;">
@@ -210,12 +190,21 @@ class JacobSiteFeatures {
             const loadTime = performance.timing ? 
                 (performance.timing.loadEventEnd - performance.timing.navigationStart) : '--';
             
+            // Heure du Québec pour le mode geek
+            const quebecTime = new Date().toLocaleTimeString('fr-CA', {
+                timeZone: 'America/Toronto',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            
             const elements = {
                 'geek-fps': fps,
                 'geek-memory': memory,
                 'geek-load': loadTime,
                 'geek-uptime': uptime,
-                'geek-theme': document.body.getAttribute('data-theme'),
+                'geek-time': quebecTime,
                 'geek-screen': `${window.innerWidth}x${window.innerHeight}`
             };
             
@@ -276,222 +265,6 @@ class JacobSiteFeatures {
     }
 
     // ========================================
-    // INTÉGRATION GITHUB AVEC TRIGGER
-    // ========================================
-    async setupGitHubIntegration() {
-        try {
-            const response = await fetch('https://api.github.com/users/Allen-Jacob/events/public');
-            
-            if (!response.ok) throw new Error('API unavailable');
-            
-            const events = await response.json();
-            const lastPush = events.find(event => event.type === 'PushEvent');
-            
-            if (lastPush) {
-                this.showGitHubWidget(lastPush);
-            } else {
-                this.showGitHubWidget(this.getFakeCommitData());
-            }
-        } catch (error) {
-            console.log('GitHub API unavailable, using fallback');
-            this.showGitHubWidget(this.getFakeCommitData());
-        }
-
-        // Pulse d'attention après 3 secondes
-        setTimeout(() => {
-            const trigger = document.getElementById('github-trigger');
-            if (trigger) {
-                trigger.classList.add('pulse');
-                setTimeout(() => trigger.classList.remove('pulse'), 4000);
-            }
-        }, 3000);
-    }
-
-    getFakeCommitData() {
-        const commits = [
-            'Added new features ✨',
-            'Fixed responsive design 📱', 
-            'Updated animations 🎨',
-            'Improved performance 🚀',
-            'Enhanced accessibility ♿',
-            'Added Easter eggs 🥚',
-            'Refactored CSS 💅',
-            'Updated dependencies 📦'
-        ];
-        
-        const randomMinutes = Math.floor(Math.random() * 180) + 5;
-        
-        return {
-            created_at: new Date(Date.now() - randomMinutes * 60000).toISOString(),
-            repo: { name: 'Allen-Jacob/jacoballen-website' },
-            payload: {
-                commits: [{
-                    message: commits[Math.floor(Math.random() * commits.length)]
-                }]
-            }
-        };
-    }
-
-    showGitHubWidget(commitData) {
-        this.githubData = commitData;
-        this.createGitHubTrigger();
-        
-        const githubWidget = document.createElement('div');
-        githubWidget.id = 'github-widget';
-        githubWidget.style.cssText = `
-            position: fixed;
-            top: 90px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #4ecdc4;
-            border-radius: 8px;
-            padding: 12px;
-            color: white;
-            font-size: 12px;
-            z-index: 999;
-            max-width: 260px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-100%);
-            opacity: 0;
-            pointer-events: none;
-        `;
-        
-        const commitMessage = commitData.payload?.commits?.[0]?.message || 'Recent activity';
-        const timeAgo = this.getTimeAgo(new Date(commitData.created_at));
-        
-        githubWidget.innerHTML = `
-            <div style="color: #4ecdc4; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                <span>📊</span> Last commit
-            </div>
-            <div style="margin-bottom: 4px; line-height: 1.3;">${commitMessage}</div>
-            <div style="opacity: 0.7; font-size: 11px;">⏰ ${timeAgo}</div>
-            <div style="margin-top: 8px; text-align: center;">
-                <button id="close-github-widget" style="
-                    background: none;
-                    border: 1px solid #4ecdc4;
-                    color: #4ecdc4;
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    font-size: 10px;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                ">Close</button>
-            </div>
-        `;
-        
-        document.body.appendChild(githubWidget);
-        
-        document.getElementById('close-github-widget').addEventListener('click', () => {
-            this.hideGitHubWidget();
-        });
-    }
-
-    createGitHubTrigger() {
-        const trigger = document.createElement('div');
-        trigger.id = 'github-trigger';
-        trigger.textContent = 'LAST COMMIT';
-        trigger.style.cssText = `
-            position: fixed;
-            left: 20px;
-            top: 90px;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid #4ecdc4;
-            border-radius: 6px;
-            padding: 8px 6px;
-            color: #4ecdc4;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            letter-spacing: 1px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            user-select: none;
-        `;
-        
-        trigger.addEventListener('mouseenter', () => {
-            trigger.style.transform = 'scale(1.05)';
-            trigger.style.boxShadow = '0 4px 15px rgba(78, 205, 196, 0.3)';
-            trigger.style.background = 'rgba(78, 205, 196, 0.1)';
-        });
-        
-        trigger.addEventListener('mouseleave', () => {
-            trigger.style.transform = 'scale(1)';
-            trigger.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
-            trigger.style.background = 'rgba(0, 0, 0, 0.7)';
-        });
-        
-        trigger.addEventListener('click', () => {
-            this.toggleGitHubWidget();
-        });
-        
-        document.body.appendChild(trigger);
-    }
-
-    showGitHubWidgetPanel() {
-        const widget = document.getElementById('github-widget');
-        const trigger = document.getElementById('github-trigger');
-        
-        if (widget) {
-            widget.style.transform = 'translateX(0)';
-            widget.style.opacity = '1';
-            widget.style.pointerEvents = 'auto';
-        }
-        
-        if (trigger) {
-            trigger.style.opacity = '0.5';
-            trigger.style.transform = 'scale(0.95)';
-        }
-    }
-
-    hideGitHubWidget() {
-        const widget = document.getElementById('github-widget');
-        const trigger = document.getElementById('github-trigger');
-        
-        if (widget) {
-            widget.style.transform = 'translateX(-100%)';
-            widget.style.opacity = '0';
-            widget.style.pointerEvents = 'none';
-        }
-        
-        if (trigger) {
-            trigger.style.opacity = '1';
-            trigger.style.transform = 'scale(1)';
-        }
-    }
-
-    toggleGitHubWidget() {
-        const widget = document.getElementById('github-widget');
-        const isVisible = widget && widget.style.opacity === '1';
-        
-        if (isVisible) {
-            this.hideGitHubWidget();
-        } else {
-            this.showGitHubWidgetPanel();
-        }
-    }
-
-    getTimeAgo(date) {
-        const now = new Date();
-        const diff = now - date;
-        const minutes = Math.floor(diff / 60000);
-        const hours = Math.floor(diff / 3600000);
-        const days = Math.floor(diff / 86400000);
-        
-        if (days > 0) return `${days}j ago`;
-        if (hours > 0) return `${hours}h ago`;
-        if (minutes > 0) return `${minutes}m ago`;
-        return 'just now';
-    }
-
-    // ========================================
     // CONSOLE EASTER EGG
     // ========================================
     initConsole() {
@@ -500,11 +273,23 @@ class JacobSiteFeatures {
 
 Hidden features:
 • Type 'geek' to activate geek mode
-• Theme auto-switches with your OS preference
-• GitHub integration shows latest commits
+• Quebec local time displayed in bottom left
+• Click the clock for a surprise!
 
 Made with ❤️ and lots of ☕
         `);
+    }
+
+    // ========================================
+    // CLEANUP
+    // ========================================
+    destroy() {
+        if (this.clockInterval) {
+            clearInterval(this.clockInterval);
+        }
+        if (this.geekStatsInterval) {
+            clearInterval(this.geekStatsInterval);
+        }
     }
 }
 
@@ -513,77 +298,22 @@ Made with ❤️ and lots of ☕
 // ========================================
 const style = document.createElement('style');
 style.textContent = `
-    /* Thème clair */
-    [data-theme="light"] {
-        --bg-primary: #f8f9fa !important;
-        --text-primary: #2c3e50 !important;
-        --text-secondary: #495057 !important;
-        --glass-bg: rgba(255, 255, 255, 0.8) !important;
-        --border-color: rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    [data-theme="light"] body {
-        background-color: var(--bg-primary);
-        color: var(--text-primary);
-    }
-    
-    [data-theme="light"] .background {
-        background: 
-            radial-gradient(circle at 20% 80%, rgba(255, 107, 157, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.06) 0%, transparent 50%);
-    }
-    
-    [data-theme="light"] header {
-        background: rgba(248, 249, 250, 0);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    
-    [data-theme="light"] .nav-links a {
-        color: #495057;
-    }
-    
-    [data-theme="light"] .social-box {
-        background: rgba(255, 255, 255, 0.92);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    
-    [data-theme="light"] #theme-toggle {
-        background: rgba(255, 255, 255, 0);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        color: #2c3e50;
-    }
-    
-    [data-theme="light"] #github-widget {
-        background: rgba(255, 255, 255, 0.9);
-        color: #2c3e50;
-        border: 1px solid #4ecdc4;
+    /* Animations pour l'horloge */
+    @keyframes clockPulse {
+        0% { 
+            transform: scale(1); 
+        }
+        50% { 
+            transform: scale(1.1); 
+            background: rgba(255, 107, 157, 0.2);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+        }
+        100% { 
+            transform: scale(1); 
+        }
     }
 
-    [data-theme="light"] #github-trigger {
-        background: rgba(255, 255, 255, 0.9) !important;
-        color: #2c3e50 !important;
-        border: 1px solid #4ecdc4 !important;
-    }
-
-    [data-theme="light"] #github-trigger:hover {
-        background: rgba(78, 205, 196, 0.1) !important;
-    }
-
-    [data-theme="light"] #close-github-widget {
-        color: #2c3e50 !important;
-        border-color: #4ecdc4 !important;
-    }
-
-    [data-theme="light"] #close-github-widget:hover {
-        background: rgba(78, 205, 196, 0.1) !important;
-    }
-
-    /* Animations */
-    @keyframes themeSwitch {
-        0%, 100% { transform: translateY(-50%) scale(1); }
-        50% { transform: translateY(-50%) scale(1.2) rotate(180deg); }
-    }
-    
+    /* Animations du mode geek */
     @keyframes geekParticle {
         0% { 
             transform: translateY(0) scale(1) rotate(0deg); 
@@ -617,56 +347,13 @@ style.textContent = `
         }
     }
 
-    @keyframes triggerPulse {
-        0%, 100% { 
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); 
-        }
-        50% { 
-            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.4); 
-        }
-    }
-
-    #github-trigger.pulse {
-        animation: triggerPulse 2s infinite;
-    }
-
-    #github-trigger:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-        background: rgba(78, 205, 196, 0.1);
-    }
-
-    #github-trigger:active {
-        transform: scale(0.98);
-    }
-
-    #close-github-widget:hover {
-        background: rgba(78, 205, 196, 0.1);
-        transform: scale(1.05);
-    }
-
-    /* Responsive */
+    /* Responsive pour l'horloge */
     @media (max-width: 768px) {
-        #theme-toggle {
+        #quebec-clock {
+            bottom: 15px !important;
             left: 15px !important;
-            width: 45px !important;
-            height: 45px !important;
-            font-size: 18px !important;
-        }
-        
-        #github-trigger {
-            top: 75px !important;
-            left: 15px !important;
-            font-size: 10px !important;
-            padding: 6px 4px !important;
-            letter-spacing: 0.5px !important;
-        }
-        
-        #github-widget {
-            top: 75px !important;
-            left: 15px !important;
-            max-width: 200px !important;
-            font-size: 11px !important;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
         }
         
         #geek-panel {
@@ -674,6 +361,13 @@ style.textContent = `
             right: 15px !important;
             width: 250px !important;
             font-size: 11px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #quebec-clock {
+            font-size: 12px !important;
+            padding: 5px 10px !important;
         }
     }
 `;
@@ -685,6 +379,13 @@ document.head.appendChild(style);
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
     window.jacobFeatures = new JacobSiteFeatures();
+});
+
+// Cleanup au déchargement de la page
+window.addEventListener('beforeunload', () => {
+    if (window.jacobFeatures) {
+        window.jacobFeatures.destroy();
+    }
 });
 
 // Export pour debug
