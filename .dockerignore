@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+
+# Scripts de déploiement
+deploy.sh
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE et éditeurs
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.temp
