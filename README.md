@@ -34,6 +34,7 @@ Il est conçu en **HTML / CSS / Nginx** avec une structure simple et efficace.
 
 **Jacob Allen**  
 [👉 Mon site web](https://jacoballen.ca)  
+- 📧 Email : [contact@jacoballen.ca]
 
 © 2025 Jacob Allen. All rights reserved.
 
