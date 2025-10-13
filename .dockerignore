@@ -1,34 +1,26 @@
-# Git
-.git
-.gitignore
-.gitattributes
+# Variables d'environnement (contient le mot de passe admin)
+env.js
+api/.env
 
-# Documentation
-README.md
-*.md
+# Dependencies
+node_modules/
+api/node_modules/
 
-# Scripts de déploiement
-deploy.sh
-
-# Docker
-Dockerfile
-docker-compose.yml
-.dockerignore
-
-# IDE et éditeurs
-.vscode
-.idea
-*.swp
-*.swo
-*~
-
-# Système
+# Fichiers système
 .DS_Store
 Thumbs.db
 
 # Logs
 *.log
+npm-debug.log*
 
-# Fichiers temporaires
-*.tmp
-*.temp
+# IDE
+.vscode/
+.idea/
+
+# Docker
+Dockerfile.old
+
+# Build
+dist/
+build/
