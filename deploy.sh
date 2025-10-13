@@ -2,7 +2,7 @@
 set -e
 
 # ============================================
-# Script de déploiement final - jacoballen-website
+# Script de déploiement final - jacoballen.ca pour le futur
 # ============================================
 
 SRC="/home/projects/jacoballen-website/"
@@ -12,7 +12,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${YELLOW}📦 Déploiement jacoballen-website - copie des fichiers du site...${NC}"
+echo -e "${YELLOW}📦 Déploiement jacoballen.ca - copie des fichiers du site...${NC}"
 
 rsync -av \
   --exclude='.git/' \
@@ -25,7 +25,6 @@ rsync -av \
 
 echo -e "${GREEN}✓ Copie terminée !${NC}"
 
-# Copier les dossiers importants s'ils existent
 for dir in "img" "assets" "media"; do
   if [ -d "$SRC/$dir" ]; then
     mkdir -p "$DEST/$dir"
@@ -44,4 +43,4 @@ echo -e "${YELLOW}🔄 Rechargement de Nginx...${NC}"
 nginx -t && systemctl reload nginx
 echo -e "${GREEN}✓ Nginx rechargé${NC}"
 
-echo -e "${GREEN}🎉 Déploiement jacoballen-website terminé avec succès !${NC}"
+echo -e "${GREEN}🎉 Déploiement jacoballen.ca terminé avec succès !${NC}"
