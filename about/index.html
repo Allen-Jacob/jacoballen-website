@@ -40,13 +40,83 @@
       "jobTitle": "Développeur & Homelaber",
       "url": "https://jacoballen.ca",
       "sameAs": [
-        "https://github.com/jacoballen",
-        "https://youtube.com/@jacoballen"
+        "https://github.com/Allen-Jacob",
+        "https://www.youtube.com/@Bridled01"
       ]
     }
     </script>
     
     <link rel="stylesheet" href="../css/styles.css">
+    
+    <style>
+        /* Styles pour la photo de profil */
+        .about-header {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .about-header-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image {
+            flex: 0 0 auto;
+            max-width: 400px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-image img:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-image {
+                max-width: 100%;
+                order: -1;
+            }
+
+            .about-text h1 {
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-header-content {
+                gap: 1.5rem;
+            }
+
+            .about-image img {
+                border-radius: 15px;
+            }
+        }
+    </style>
 
 </head>
 <body class="page-about">
@@ -68,10 +138,10 @@
                 Jacob Allen
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="/" class="nav-link active">
+                <li><a href="/" class="nav-link">
                     <i class="fa-solid fa-house"></i> Home
                 </a></li>
-                    <li><a href="/about" class="nav-link">
+                    <li><a href="/about" class="nav-link active">
                       <i class="fa-solid fa-address-card"></i> About
                 </a></li>
                 <li><a href="https://link.jacoballen.ca" class="nav-link" target="_blank" rel="noopener noreferrer">
@@ -88,8 +158,15 @@
     <div class="page-content">
         <div class="about-content">
             <div class="about-header">
-                <h1>About Me</h1>
-                <p>I am passionate about technology and I love nature, so I divide my time between the outdoors and computing.</p>
+                <div class="about-header-content">
+                    <div class="about-text">
+                        <h1>About Me</h1>
+                        <p>I am passionate about technology and I love nature, so I divide my time between the outdoors and computing.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="../images/mountain-photo.jpg" alt="Jacob Allen au sommet d'une montagne" loading="lazy">
+                    </div>
+                </div>
             </div>
 
             <div class="about-section">
@@ -180,5 +257,5 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/jacob-features.js"></script>
-<body>
+</body>
 </html>
