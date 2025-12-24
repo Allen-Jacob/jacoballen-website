@@ -49,31 +49,28 @@
     <link rel="stylesheet" href="../css/styles.css">
     
     <style>
-        /* Styles pour la photo de profil */
+        /* Styles pour la photo de profil - Version centrée */
         .about-header {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
+            text-align: center;
             margin-bottom: 3rem;
-            flex-wrap: wrap;
+            position: relative;
         }
 
-        .about-header-content {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            width: 100%;
-            flex-wrap: wrap;
+        .about-header h1 {
+            margin-bottom: 1rem;
         }
 
-        .about-text {
-            flex: 1;
-            min-width: 300px;
+        .about-header > p {
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .about-image {
-            flex: 0 0 auto;
-            max-width: 400px;
+            margin: 2rem auto;
+            max-width: 600px;
+            padding: 0 1rem;
         }
 
         .about-image img {
@@ -81,39 +78,78 @@
             height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             border: 3px solid rgba(255, 255, 255, 0.1);
         }
 
         .about-image img:hover {
-            transform: translateY(-5px) scale(1.02);
+            transform: translateY(-5px);
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Scroll indicator - Flèche animée */
+        .scroll-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 3rem;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .scroll-indicator i {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .about-header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
             .about-image {
                 max-width: 100%;
-                order: -1;
             }
-
-            .about-text h1 {
-                margin-top: 1rem;
+            
+            .scroll-indicator {
+                margin-top: 2rem;
             }
         }
 
         @media (max-width: 480px) {
-            .about-header-content {
-                gap: 1.5rem;
-            }
-
             .about-image img {
                 border-radius: 15px;
+            }
+            
+            .scroll-indicator span {
+                font-size: 0.8rem;
+            }
+            
+            .scroll-indicator i {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -158,14 +194,14 @@
     <div class="page-content">
         <div class="about-content">
             <div class="about-header">
-                <div class="about-header-content">
-                    <div class="about-text">
-                        <h1>About Me</h1>
-                        <p>I am passionate about technology and I love nature, so I divide my time between the outdoors and computing.</p>
-                    </div>
-                    <div class="about-image">
-                        <img src="../images/mountain-photo.jpg" alt="Jacob Allen au sommet d'une montagne" loading="lazy">
-                    </div>
+                <h1>About Me 🧑‍💻</h1>
+                <p>I am passionate about technology and I love nature 🌅, so I divide my time between the outdoors and computing. I work in a Outdoors environment with bike 🚲 and Ski 🚠.</p>
+                <div class="about-image">
+                    <img src="../images/mountain-photo.jpg" alt="Jacob Allen au sommet d'une montagne" loading="lazy">
+                </div>
+                <div class="scroll-indicator" onclick="document.querySelector('.about-section').scrollIntoView({behavior: 'smooth'});">
+                    <span>Discover more</span>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
 
@@ -192,7 +228,7 @@
                     <div class="skill-item">
                         <i class="fas fa-server"></i>
                         <h4>Backend 🔥</h4>
-                        <p>Nothing ❌ </p>
+                        <p>MariaDB and MySQL</p>
                     </div>
                     <div class="skill-item">
                         <i class="fab fa-docker"></i>
