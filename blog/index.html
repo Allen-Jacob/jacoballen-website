@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Jacob Allen</title>
@@ -33,17 +35,33 @@
     </style>
 </head>
 <body>
-    <header>
+   <header>
         <nav>
-            <a href="/" class="logo">🚀 Jacob Allen</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about/">About</a></li>
-                <li><a href="/blog/" class="active">Blog</a></li>
+            <a href="/" class="logo">
+                <span>🚀</span>
+                Jacob Allen
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="nav-link">
+                    <i class="fa-solid fa-house"></i> Home
+                </a></li>
+                    <li><a href="/about" class="nav-link">
+                      <i class="fa-solid fa-address-card"></i> About
+                </a></li>
+                    <li><a href="/blog" class="nav-link active">
+                      <i class="fa-solid fa-rss"></i> Blog
+                </a></li>
+                <li><a href="https://link.jacoballen.ca" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-link"></i> Links
+                </a></li>
             </ul>
-            <button class="mobile-menu-btn">☰</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </nav>
     </header>
+
 
     <div class="background"></div>
     <div class="particles">
@@ -130,10 +148,10 @@
             // Page 1 - Articles visibles seulement
             [
                 {
-                    title: "Les bases du développement web",
-                    date: "06 septembre 2025",
-                    excerpt: "Cet article explique les concepts essentiels pour débuter en développement web, incluant HTML, CSS et JavaScript, pour construire des sites modernes et réactifs.",
-                    link: "articles/mon-article.html"
+                    title: "Pourquoi migrer votre homelab avec Tailscale",
+                    date: "4 janvier 2026",
+                    excerpt: "Tailscale simplifie l’accès sécurisé à votre HomeLab partout dans le monde. Découvrez pourquoi cet outil basé sur WireGuard remplace avantageusement les VPN traditionnels et comment il facilite la gestion de vos serveurs sans ouvrir de ports.",
+                    link: "articles/tailscale-homelab.html"
                 }
                 // Les autres articles sont cachés via CSS, donc pas besoin de les inclure ici
                 // Tu peux les rajouter dans ce tableau quand tu enlèves la classe "hidden"
