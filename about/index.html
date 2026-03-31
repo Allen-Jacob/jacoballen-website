@@ -4,61 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Optimisation -->
     <title>Jacob Allen - About | Homelaber & Développeur</title>
-    <meta name="description" content="En savoir plus sur Jacob Allen - Passionné de technologie, nature et développement. Découvrez mon parcours et mes compétences.">
-    <meta name="keywords" content="Jacob Allen, about, homelaber, développeur, technologie, nature, compétences, parcours">
+    <meta name="description" content="En savoir plus sur Jacob Allen - Passionné de technologie, nature et développement.">
     <meta name="author" content="Jacob Allen">
     
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jacoballen.ca/about/">
     <meta property="og:title" content="Jacob Allen - About">
-    <meta property="og:description" content="En savoir plus sur Jacob Allen - Passionné de technologie, nature et développement.">
     <meta property="og:image" content="https://jacoballen.ca/og-image.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://jacoballen.ca/about/">
-    <meta property="twitter:title" content="Jacob Allen - About">
-    <meta property="twitter:description" content="En savoir plus sur Jacob Allen - Passionné de technologie, nature et développement.">
-    <meta property="twitter:image" content="https://jacoballen.ca/og-image.jpg">
     
-    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" type="image/svg+xml">
-    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
-    
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     
-    <!-- Schema.org markup -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Jacob Allen",
       "jobTitle": "Développeur & Homelaber",
-      "url": "https://jacoballen.ca",
-      "sameAs": [
-        "https://github.com/Allen-Jacob",
-        "https://www.youtube.com/@Bridled01"
-      ]
+      "url": "https://jacoballen.ca"
     }
     </script>
     
     <link rel="stylesheet" href="../css/styles.css">
     
     <style>
-        /* Styles pour la photo de profil - Version centrée */
+        /* ══════════════════════════════════════
+           UNIQUE CARD SYSTEM — used everywhere
+           Each card: icon left + text right
+           ══════════════════════════════════════ */
+
         .about-header {
             text-align: center;
             margin-bottom: 3rem;
-            position: relative;
         }
 
-        .about-header h1 {
-            margin-bottom: 1rem;
-        }
+        .about-header h1 { margin-bottom: 1rem; }
 
         .about-header > p {
             margin-bottom: 2rem;
@@ -77,17 +58,16 @@
             width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255,255,255,0.1);
         }
 
         .about-image img:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
         }
 
-        /* Scroll indicator - Flèche animée */
         .scroll-indicator {
             display: flex;
             flex-direction: column;
@@ -99,64 +79,103 @@
             transition: opacity 0.3s ease;
         }
 
-        .scroll-indicator:hover {
-            opacity: 1;
-        }
+        .scroll-indicator:hover { opacity: 1; }
 
         .scroll-indicator span {
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.8);
             font-weight: 500;
-            letter-spacing: 0.5px;
         }
 
         .scroll-indicator i {
             font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.8);
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40%  { transform: translateY(-10px); }
+            60%  { transform: translateY(-5px); }
         }
 
-        /* Responsive */
+        /* ── Card grid ─────────────────────── */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* ── Single card ──────────────────── */
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            background: rgba(255,107,157,0.07);
+            border-color: rgba(255,107,157,0.25);
+            transform: translateY(-2px);
+        }
+
+        a.card:active { transform: translateY(0); }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        .card-icon.pink   { background: rgba(255,107,157,0.12); color: #ff6b9d; }
+        .card-icon.teal   { background: rgba(78,205,196,0.12);  color: #4ecdc4; }
+        .card-icon.purple { background: rgba(120,119,198,0.15); color: #a78bfa; }
+
+        .card-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #eee;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 0.76rem;
+            color: #777;
+            margin-top: 0.1rem;
+            line-height: 1.3;
+        }
+
+        /* ── Section sub-label ──────────────── */
+        .sub-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            color: #555;
+            margin: 1.4rem 0 0.5rem;
+        }
+
+        /* ── Responsive ──────────────────── */
         @media (max-width: 768px) {
-            .about-image {
-                max-width: 100%;
-            }
-            
-            .scroll-indicator {
-                margin-top: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .about-image img {
-                border-radius: 15px;
-            }
-            
-            .scroll-indicator span {
-                font-size: 0.8rem;
-            }
-            
-            .scroll-indicator i {
-                font-size: 1.3rem;
-            }
+            .about-image { max-width: 100%; }
+            .card-grid { grid-template-columns: 1fr; }
         }
     </style>
-
 </head>
 <body class="page-about">
-    <!-- Background Effects -->
     <div class="background"></div>
     <div class="particles">
         <div class="particle"></div>
@@ -166,23 +185,13 @@
         <div class="particle"></div>
     </div>
 
-    <!-- Header Navigation -->
     <header>
         <nav>
-            <a href="/" class="logo">
-                <span>🚀</span>
-                Jacob Allen
-            </a>
+            <a href="/" class="logo"><span>🚀</span> Jacob Allen</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="/" class="nav-link">
-                    <i class="fa-solid fa-house"></i> Home
-                </a></li>
-                    <li><a href="/about" class="nav-link active">
-                      <i class="fa-solid fa-address-card"></i> About
-                </a></li>
-                <li><a href="https://link.jacoballen.ca" class="nav-link" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-link"></i> Links
-                </a></li>
+                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="/about" class="nav-link active"><i class="fa-solid fa-address-card"></i> About</a></li>
+                <li><a href="https://link.jacoballen.ca" class="nav-link" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-link"></i> Links</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
@@ -190,103 +199,225 @@
         </nav>
     </header>
 
-    <!-- About Page Content -->
     <div class="page-content">
         <div class="about-content">
+
+            <!-- ── Hero ─────────────────────────── -->
             <div class="about-header">
                 <h1>About Me 🧑‍💻</h1>
-                <p>I am passionate about technology and I love nature 🌅, so I divide my time between the outdoors and computing. I work in a Outdoors environment with bike 🚲 and Ski 🚠.</p>
+                <p>I am passionate about technology and I love nature 🌅, so I divide my time between the outdoors and computing. I work outdoors with bike 🚲 and Ski 🚠.</p>
                 <div class="about-image">
                     <img src="../images/mountain-photo.jpg" alt="Jacob Allen au sommet d'une montagne" loading="lazy">
                 </div>
-                <div class="scroll-indicator" onclick="document.querySelector('.about-section').scrollIntoView({behavior: 'smooth'});">
+                <div class="scroll-indicator" onclick="document.querySelector('.about-section').scrollIntoView({behavior:'smooth'});">
                     <span>Discover more</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
 
+            <!-- ── Homelaber ─────────────────────── -->
             <div class="about-section">
                 <h2><i class="fas fa-home"></i> Homelaber</h2>
                 <p>I manage my own HomeLab with servers, Docker containers, and various technologies to experiment and learn continuously. My homelab allows me to test new solutions, automate tasks, and gain an in-depth understanding of IT infrastructure.</p>
             </div>
 
+            <!-- ── Nature ────────────────────────── -->
             <div class="about-section">
-                <h2><i class="fas fa-leaf"></i> Nature </h2>
+                <h2><i class="fas fa-leaf"></i> Nature</h2>
                 <p>I enjoy spending time outdoors, mountain biking, skiing, snowmobiling, and hiking. I do these things to have fun and keep my young body in shape.</p>
             </div>
 
+            <!-- ── Developer in Training ─────────── -->
             <div class="about-section">
                 <h2><i class="fas fa-code"></i> Developer in Training 🧑‍💻</h2>
                 <p>Currently learning software and website development. I am learning as much as possible with my servers and my IT projects.</p>
-                
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <i class="fab fa-html5"></i>
-                        <h4>Frontend 🧱</h4>
-                        <p>HTML, CSS, JavaScript</p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fab fa-html5"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Frontend 🧱</div>
+                            <div class="card-desc">HTML, CSS, JavaScript</div>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <i class="fas fa-server"></i>
-                        <h4>Backend 🔥</h4>
-                        <p>MariaDB and MySQL</p>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fas fa-database"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Backend 🔥</div>
+                            <div class="card-desc">MariaDB and MySQL</div>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <i class="fab fa-docker"></i>
-                        <h4>DevOps</h4>
-                        <p>Docker, GitHub, Linux</p>
+                    <div class="card">
+                        <div class="card-icon purple"><i class="fab fa-docker"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">DevOps</div>
+                            <div class="card-desc">Docker, GitHub, Linux</div>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <i class="fas fa-network-wired"></i>
-                        <h4>HomeLab 💾</h4>
-                        <p>Servers, Network</p>
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fas fa-network-wired"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">HomeLab 💾</div>
+                            <div class="card-desc">Servers, Network</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- ── Hosting Tools ─────────────────── -->
             <div class="about-section">
                 <h2><i class="fas fa-cloud"></i> Hosting Tools</h2>
-                <p>My website is hosted on a RackNerd VPS for $12 per year. It is designed specifically for my site and is perfect for this use.</p>
-                
-                <div class="hosting-grid">
-                    <div class="hosting-item">
-                        <i class="fas fa-server"></i>
-                        <h4>RackNerd</h4>
-                        <p>VPS hosting</p>
+                <p>My website is hosted on a RackNerd VPS for $12 per year, running Nginx on Ubuntu.</p>
+
+                <div class="card-grid">
+                    <a class="card" href="https://my.racknerd.com/aff.php?aff=15552" target="_blank" rel="noopener noreferrer">
+                        <div class="card-icon teal"><i class="fas fa-server"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">RackNerd VPS</div>
+                            <div class="card-desc">$12/yr · Linux hosting</div>
+                        </div>
+                    </a>
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fas fa-globe"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Nginx</div>
+                            <div class="card-desc">Web server</div>
+                        </div>
                     </div>
-                    <div class="hosting-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Nginx</h4>
-                        <p>WEB Server</p>
+                    <div class="card">
+                        <div class="card-icon purple"><i class="fab fa-html5"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">HTML / CSS</div>
+                            <div class="card-desc">Custom hand-written code</div>
+                        </div>
                     </div>
-                    <div class="hosting-item">
-                        <i class="fab fa-html5"></i>
-                        <h4>HTML/CSS</h4>
-                        <p>Custom code + IA</p>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fab fa-linux"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Ubuntu</div>
+                            <div class="card-desc">Operating system</div>
+                        </div>
                     </div>
-                    <div class="hosting-item">
-                        <i class="fab fa-linux"></i>
-                        <h4>Linux - Ubuntu</h4>
-                        <p>Operating system</p>
-                    </div>
-                    <div class="hosting-item">
-                        <i class="fa-solid fa-code-branch"></i>
-                        <h4>GitHub</h4>
-                        <p>For Push my commit and new release</p>
-                    </div>
+                    <a class="card" href="https://github.com/Allen-Jacob" target="_blank" rel="noopener noreferrer">
+                        <div class="card-icon pink"><i class="fab fa-github"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">GitHub</div>
+                            <div class="card-desc">Commits & releases</div>
+                        </div>
+                    </a>
                 </div>
             </div>
+
+            <!-- ── My Equipment ──────────────────── -->
+            <div class="about-section">
+                <h2><i class="fas fa-microchip"></i> My Equipment</h2>
+                <p>The hardware I use daily — from my desk setup to the homelab running behind the scenes.</p>
+
+                <p class="sub-label">Computers</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fab fa-apple"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">MacBook Pro 14" M5 Pro — Space Black</div>
+                            <div class="card-desc">Primary machine · macOS</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fab fa-windows"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Custom Desktop PC</div>
+                            <div class="card-desc">Secondary machine · Windows · dedicated GPU</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple"><i class="fas fa-server"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Dell OptiPlex 5050 SFF</div>
+                            <div class="card-desc">Home server · Proxmox · ~20 Docker containers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sub-label">Desk Setup</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">UGREEN Revodok Max 208</div>
+                            <div class="card-desc">Thunderbolt 4 dock · 12-in-1</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fas fa-bolt"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">UGREEN Nexode Pro 160W</div>
+                            <div class="card-desc">Desktop charger · 4 ports</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple"><i class="fas fa-laptop"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Rain Design mStand</div>
+                            <div class="card-desc">Aluminum laptop stand</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fas fa-tv"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">Dual External Monitors</div>
+                            <div class="card-desc">Connected via USB-C to HDMI</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sub-label">Mobile & Audio</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon pink"><i class="fab fa-apple"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">iPhone</div>
+                            <div class="card-desc">Daily driver · iOS</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fas fa-headphones"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">AirPods Pro</div>
+                            <div class="card-desc">Active noise cancellation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sub-label">Network</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon purple"><i class="fas fa-wifi"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">TP-Link Omada</div>
+                            <div class="card-desc">Managed switch + APs · VLANs · SDN controller</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon teal"><i class="fas fa-cloud"></i></div>
+                        <div class="card-text">
+                            <div class="card-name">RackNerd VPS</div>
+                            <div class="card-desc">Pangolin tunnel · public exposure</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
-    <!-- Social Links -->
     <div class="social-box">
-            <a href="https://l.jacoballen.ca/youtube" class="social-link"><i class="fab fa-youtube"></i></a>
-            <a href="https://l.jacoballen.ca/github" class="social-link"><i class="fab fa-github"></i></a>
-            <a href="https://l.jacoballen.ca/x" class="social-link"><i class="fab fa-x-twitter"></i></a>
-            <a href="mailto:contact@jacoballen.ca" class="social-link"><i class="fas fa-envelope"></i></a>
-        </div>
+        <a href="https://l.jacoballen.ca/youtube" class="social-link"><i class="fab fa-youtube"></i></a>
+        <a href="https://l.jacoballen.ca/github" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="https://l.jacoballen.ca/x" class="social-link"><i class="fab fa-x-twitter"></i></a>
+        <a href="mailto:contact@jacoballen.ca" class="social-link"><i class="fas fa-envelope"></i></a>
+    </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; <span id="year"></span> Jacob Allen. All rights reserved.</p>
     </footer>
