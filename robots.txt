@@ -17,5 +17,5 @@ Allow: /js/
 Allow: /img/
 
 # Reference vers le sitemap (remplacez par votre URL)
-Sitemap: https://votresite.com/sitemap.xml
+Sitemap: https://jacoballen.ca/sitemap.xml
 
